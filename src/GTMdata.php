@@ -180,10 +180,9 @@ class GTMdata
     public static function pushPurchase($fields)
     {
         $defaults = [
-            'id'           => '',
-            'currencyCode' => self::$currency,
-            'affiliation'  => '',
-            'revenue'      => '0.00',
+            'transaction_id'           => '',
+            'currency' => self::$currency,
+            'value'      => '0.00',
             'tax'          => '0.00',
             'shipping'     => '0.00'
         ];
@@ -202,10 +201,10 @@ class GTMdata
     public static function pushPurchaseItem($fields)
     {
         $defaults = [
-            'id'   => '',
-            'name' => ''
+            'item_id'   => '',
+            'item_name' => ''
         ];
-        self::$data['ecommerce']['purchase']['products'][] = self::getDefaults($fields, $defaults);
+        self::$data['ecommerce']['purchase']['items'][] = self::getDefaults($fields, $defaults);
     }
 
     /**
