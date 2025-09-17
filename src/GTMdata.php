@@ -98,8 +98,8 @@ class GTMdata
     public static function pushProductImpression($fields)
     {
         $defaults = [
-            'id'   => '',
-            'name' => ''
+            'item_id'   => '',
+            'item_name' => ''
         ];
         self::$data['ecommerce']['impressions'][] = self::getDefaults($fields, $defaults);
     }
@@ -116,8 +116,8 @@ class GTMdata
     public static function pushProductPromoImpression($fields)
     {
         $defaults = [
-            'id'   => '',
-            'name' => ''
+            'item_id'   => '',
+            'item_name' => ''
         ];
         self::$data['ecommerce']['promoView']['promotions'][] = self::getDefaults($fields, $defaults);
     }
@@ -134,10 +134,10 @@ class GTMdata
     public static function pushProductDetail($fields)
     {
         $defaults = [
-            'id'   => '',
-            'name' => ''
+            'item_id'   => '',
+            'item_name' => ''
         ];
-        self::$data['ecommerce']['detail']['products'][] = self::getDefaults($fields, $defaults);
+        self::$data['ecommerce']['detail']['items'][] = self::getDefaults($fields, $defaults);
     }
 
     /**
@@ -255,11 +255,11 @@ class GTMdata
         self::pushCurrent();
 
         $defaults = [
-            'id'       => '',
-            'name'     => '',
+            'item_id'       => '',
+            'item_name'     => '',
             'quantity' => 1
         ];
-        self::$data['ecommerce'][$action]['products'][] = self::getDefaults($fields, $defaults);
+        self::$data['ecommerce'][$action]['items'][] = self::getDefaults($fields, $defaults);
 
         // add to cart actions require their own event action and push
         self::pushEvent($event);
