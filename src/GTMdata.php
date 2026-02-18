@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CyberDuck\GTM;
 
 /**
@@ -27,10 +29,8 @@ class GTMdata
      * The datalayer JSON string
      *
      * @since 1.0.0
-     *
-     * @var string
      */
-    private static $json = '';
+    private static string $json = '';
 
     /**
      * The current dataLayer currency e.g EUR
@@ -48,10 +48,8 @@ class GTMdata
      *
      * @param string $name  DataLayer var name
      * @param mixed  $value DataLayer var value
-     *
-     * @return void
      */
-    public static function pushData($name, $value)
+    public static function pushData($name, $value): void
     {
         self::$data[$name] = $value;
     }
@@ -62,10 +60,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param string $name  The event name
-     *
-     * @return void
      */
-    public static function pushEvent($name)
+    public static function pushEvent($name): void
     {
         self::$data['event'] = $name;
     }
@@ -76,10 +72,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param string $code ISO 4217 format currency code e.g. EUR
-     *
-     * @return void
      */
-    public static function pushTransactionCurrency($code)
+    public static function pushTransactionCurrency($code): void
     {
         self::$currency = $code;
 
@@ -92,10 +86,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param array $fields An array of item fields
-     *
-     * @return void
      */
-    public static function pushProductImpression($fields)
+    public static function pushProductImpression(array $fields): void
     {
         $defaults = [
             'item_id'   => '',
@@ -110,10 +102,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param array $fields An array of item fields
-     *
-     * @return void
      */
-    public static function pushProductPromoImpression($fields)
+    public static function pushProductPromoImpression(array $fields): void
     {
         $defaults = [
             'item_id'   => '',
@@ -128,10 +118,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param array $fields An array of a purchase item fields
-     *
-     * @return void
      */
-    public static function pushProductDetail($fields)
+    public static function pushProductDetail(array $fields): void
     {
         $defaults = [
             'item_id'   => '',
@@ -146,10 +134,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param array $fields An array of item fields
-     *
-     * @return void
      */
-    public static function pushAddToCart($fields)
+    public static function pushAddToCart(array $fields): void
     {
         self::pushCartAction('add', 'addToCart', $fields);
     }
@@ -160,10 +146,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param array $fields An array of item fields
-     *
-     * @return void
      */
-    public static function pushRemoveFromCart($fields)
+    public static function pushRemoveFromCart(array $fields): void
     {
         self::pushCartAction('remove', 'removeFromCart', $fields);
     }
@@ -174,10 +158,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param array $fields An array of purchase fields
-     *
-     * @return void
      */
-    public static function pushPurchase($fields)
+    public static function pushPurchase(array $fields): void
     {
         $defaults = [
             'transaction_id'           => '',
@@ -195,10 +177,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param array $fields An array of a purchase item fields
-     *
-     * @return void
      */
-    public static function pushPurchaseItem($fields)
+    public static function pushPurchaseItem(array $fields): void
     {
         $defaults = [
             'item_id'   => '',
@@ -213,10 +193,8 @@ class GTMdata
      * @since 1.0.0
      *
      * @param string $id The id of the transaction to refund
-     *
-     * @return void
      */
-    public static function pushRefundTransaction($id)
+    public static function pushRefundTransaction($id): void
     {
         self::$data['ecommerce']['refund']['actionField'] = ['id' => $id];
     }
@@ -229,10 +207,8 @@ class GTMdata
      * @param string $id        The id of the transaction
      * @param string $productId The id of the item
      * @param int    $quantity  The quantity to refund
-     *
-     * @return void
      */
-    public static function pushRefundTransactionItem($id, $productId, $quantity)
+    public static function pushRefundTransactionItem($id, $productId, $quantity): void
     {
         self::pushRefundTransaction($id);
 
@@ -247,10 +223,8 @@ class GTMdata
      * @param array $action The cart action
      * @param array $event  The event name of the action
      * @param array $fields An array of item fields
-     *
-     * @return void
      */
-    public static function pushCartAction($action, $event, $fields)
+    public static function pushCartAction($action, $event, array $fields): void
     {
         self::pushCurrent();
 
@@ -270,10 +244,8 @@ class GTMdata
      * Get the complete formatted dataLayer
      *
      * @since 1.0.0
-     *
-     * @return string | null
      */
-    public static function getDataLayer()
+    public static function getDataLayer(): string
     {
         self::pushCurrent();
 
@@ -287,16 +259,15 @@ class GTMdata
      *
      * @param array $fields   Fields to check
      * @param array $defaults Default fields for this array
-     *
-     * @return array
      */
-    private static function getDefaults($fields, $defaults)
+    private static function getDefaults(array $fields, array $defaults): array
     {
         foreach ($defaults as $key => $value) {
             if (!isset($fields[$key])) {
                 $fields[$key] = $value;
             }
         }
+
         return $fields;
     }
 
@@ -304,10 +275,8 @@ class GTMdata
      * Create a dataLayer push from the current data array
      *
      * @since 1.0.0
-     *
-     * @return void
      */
-    private static function pushCurrent()
+    private static function pushCurrent(): void
     {
         if (!empty(self::$data)) {
             self::$json .= 'dataLayer.push('.json_encode(self::$data, JSON_PRETTY_PRINT).');';
@@ -319,8 +288,6 @@ class GTMdata
      * Private constructor
      *
      * @since version 1.0.0
-     *
-     * @return void
      **/
     private function __construct(){}
 
@@ -328,17 +295,6 @@ class GTMdata
      * Private clone
      *
      * @since version 1.0.0
-     *
-     * @return void
      **/
     private function __clone(){}
-
-    /**
-     * wakeup
-     *
-     * @since version 1.0.0
-     *
-     * @return void
-     **/
-    public function __wakeup(){}
 }

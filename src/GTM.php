@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CyberDuck\GTM;
 
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Config\Config;
 
@@ -33,10 +36,10 @@ class GTM
      *
      * @return string
      */
-    public static function snippet()
+    public static function snippet(): DBHTMLText
     {
         return Controller::curr()->customise([
-            'ID'   => Config::inst()->get('CyberDuck\GTM\GTM', 'container_id'),
+            'ID'   => Config::inst()->get(GTM::class, 'container_id'),
             'Data' => GTMdata::getDataLayer()
         ])->renderWith('TagManager');
     }
@@ -48,10 +51,8 @@ class GTM
      *
      * @param string $name  DataLayer var name
      * @param mixed  $value DataLayer var value
-     *
-     * @return void
      */
-    public static function data($name, $value)
+    public static function data($name, $value): void
     {
         GTMdata::pushData($name, $value);
     }
@@ -62,10 +63,8 @@ class GTM
      * @since 1.0.0
      *
      * @param string $name  The event name
-     *
-     * @return void
      */
-    public static function event($name)
+    public static function event($name): void
     {
         GTMdata::pushEvent($name);
     }
@@ -76,10 +75,8 @@ class GTM
      * @since 1.0.0
      *
      * @param string $code ISO 4217 format currency code e.g. EUR
-     *
-     * @return void
      */
-    public static function transactionCurrency($code)
+    public static function transactionCurrency($code): void
     {
         GTMdata::pushTransactionCurrency($code);
     }
@@ -90,10 +87,8 @@ class GTM
      * @since 1.0.0
      *
      * @param mixed $product An array of item fields
-     *
-     * @return void
      */
-    public static function productImpression($product)
+    public static function productImpression($product): void
     {
         GTMdata::pushProductImpression($product);
     }
@@ -104,10 +99,8 @@ class GTM
      * @since 1.0.0
      *
      * @param mixed $product An array of item fields
-     *
-     * @return void
      */
-    public static function productPromoImpression($product)
+    public static function productPromoImpression($product): void
     {
         GTMdata::pushProductPromoImpression($product);
     }
@@ -118,10 +111,8 @@ class GTM
      * @since 1.0.0
      *
      * @param mixed $product An array of item fields
-     *
-     * @return void
      */
-    public static function productDetail($product)
+    public static function productDetail($product): void
     {
         GTMdata::pushProductDetail($product);
     }
@@ -132,10 +123,8 @@ class GTM
      * @since 1.0.0
      *
      * @param mixed $product An array of item fields
-     *
-     * @return void
      */
-    public static function addToCart($product)
+    public static function addToCart($product): void
     {
         GTMdata::pushAddToCart($product);
     }
@@ -146,10 +135,8 @@ class GTM
      * @since 1.0.0
      *
      * @param mixed $product An array of item fields
-     *
-     * @return void
      */
-    public static function removeFromCart($product)
+    public static function removeFromCart($product): void
     {
         GTMdata::pushRemoveFromCart($product);
     }
@@ -160,10 +147,8 @@ class GTM
      * @since 1.0.0
      *
      * @param array $fields An array of purchase fields
-     *
-     * @return void
      */
-    public static function purchase($fields)
+    public static function purchase($fields): void
     {
         GTMdata::pushPurchase($fields);
     }
@@ -175,10 +160,8 @@ class GTM
      * @since 1.0.0
      *
      * @param mixed $product An array of item fields
-     *
-     * @return void
      */
-    public static function purchaseItem($product)
+    public static function purchaseItem($product): void
     {
         GTMdata::pushPurchaseItem($product);
     }
@@ -189,10 +172,8 @@ class GTM
      * @since 1.0.0
      *
      * @param string $id The id of the transaction to refund
-     *
-     * @return void
      */
-    public static function refundTransaction($id)
+    public static function refundTransaction($id): void
     {
         GTMdata::pushRefundTransaction($id);
     }
@@ -205,10 +186,8 @@ class GTM
      * @param string $id        The id of the transaction
      * @param string $productId The id of the item
      * @param int    $quantity  The quantity to refund
-     *
-     * @return void
      */
-    public static function refundItem($id, $productId, $quantity)
+    public static function refundItem($id, $productId, $quantity): void
     {
         GTMdata::pushRefundTransactionItem($id, $productId, $quantity);
     }
